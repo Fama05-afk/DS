@@ -1,0 +1,196 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#app{font-family:Georgia,serif;background:#F9F5EC;color:#1C2B45;min-height:100vh;padding:1.5rem 1.25rem}
+#app *{font-family:Georgia,serif}
+.header{text-align:center;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid #C9A84C44}
+.eyebrow{font-family:system-ui,sans-serif;font-size:10px;font-weight:600;color:#C9A84C;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.4rem}
+.htitle{font-size:22px;font-weight:400;color:#1C2B45;font-style:italic;margin-bottom:0.25rem}
+.hsub{font-family:system-ui,sans-serif;font-size:12px;color:#9A8B6A}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem}
+.fbtn{font-family:system-ui,sans-serif;font-size:11px;padding:4px 11px;border:0.5px solid #C9A84C66;background:transparent;color:#9A6F1A;border-radius:2px;cursor:pointer;transition:all 0.15s}
+.fbtn:hover,.fbtn.active{background:#C9A84C;color:#fff;border-color:#C9A84C}
+.progress-wrap{margin-bottom:1.25rem}
+.pmeta{display:flex;justify-content:space-between;font-family:system-ui,sans-serif;font-size:11px;color:#9A8B6A;margin-bottom:6px}
+.pbar{height:2px;background:#E8DFC8;border-radius:1px}
+.pfill{height:100%;background:#C9A84C;border-radius:1px;transition:width 0.4s}
+.qtag{display:inline-block;font-family:system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#9A6F1A;background:#FDF3DC;border:0.5px solid #C9A84C55;padding:3px 10px;border-radius:2px;margin-bottom:0.75rem}
+.qtype{display:inline-block;font-family:system-ui,sans-serif;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#5A7A9A;background:#EAF1F8;border:0.5px solid #A0C0D855;padding:3px 10px;border-radius:2px;margin-bottom:0.75rem;margin-left:6px}
+.qtext{font-size:16px;font-weight:400;color:#1C2B45;line-height:1.6;margin-bottom:0.85rem}
+.scenario{font-family:system-ui,sans-serif;font-size:13px;color:#4A5F75;background:#EEF4FA;border-left:2.5px solid #5A8ABB;padding:0.65rem 1rem;margin-bottom:1rem;border-radius:0 3px 3px 0;line-height:1.5}
+.qcode{font-family:'Courier New',monospace;font-size:12.5px;background:#EEE8D8;border:0.5px solid #C9A84C33;border-left:2.5px solid #C9A84C;padding:0.85rem 1rem;margin-bottom:1.25rem;white-space:pre;color:#2D3E55;line-height:1.7;overflow-x:auto;border-radius:0 3px 3px 0}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.opt{padding:0.75rem 1rem;border:0.5px solid #D6CDBF;background:#FFFDF7;color:#2D3E55;font-family:'Courier New',monospace;font-size:13px;text-align:left;cursor:pointer;border-radius:3px;transition:border-color 0.15s,background 0.15s;line-height:1.5}
+.opt.txt{font-family:system-ui,sans-serif;font-size:14px}
+.opt:hover:not(:disabled){border-color:#C9A84C;background:#FDF3DC;color:#1C2B45}
+.opt.correct{border-color:#3A7A55;background:#EAF5EE;color:#1E5C38}
+.opt.wrong{border-color:#B04040;background:#FAEAEA;color:#7C1C1C}
+.opt.reveal{border-color:#3A7A55;background:#EAF5EE;color:#1E5C38}
+.opt:disabled{cursor:default}
+.expl{border-left:2.5px solid #C9A84C;padding:0.85rem 1rem;background:#FDF6E3;font-family:system-ui,sans-serif;font-size:13px;line-height:1.7;color:#5C4E30;margin-bottom:1.25rem;display:none;border-radius:0 3px 3px 0}
+.expl code{font-family:'Courier New',monospace;background:#EEE8D8;padding:1px 6px;border-radius:2px;font-size:12px;color:#9A6F1A}
+.nav{display:flex;justify-content:space-between;align-items:center}
+.nfb{font-family:system-ui,sans-serif;font-size:12px;color:#9A8B6A}
+.bnext{padding:0.6rem 1.5rem;border:0.5px solid #C9A84C;background:transparent;color:#9A6F1A;font-family:system-ui,sans-serif;font-size:13px;cursor:pointer;border-radius:3px;display:none;transition:background 0.15s}
+.bnext:hover{background:#FDF3DC}
+.score-card{text-align:center;padding:3rem 1rem}
+.sring{width:110px;height:110px;border-radius:50%;border:1.5px solid #C9A84C;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;background:#FDF6E3}
+.sbig{font-size:28px;font-weight:400;color:#9A6F1A;font-style:italic}
+.sdenom{font-family:system-ui,sans-serif;font-size:11px;color:#B8A070;margin-top:2px}
+.smsg{font-size:17px;color:#1C2B45;margin-bottom:0.35rem;font-style:italic}
+.ssub{font-family:system-ui,sans-serif;font-size:13px;color:#7A6E58;margin-bottom:0.4rem}
+.sdet{font-family:system-ui,sans-serif;font-size:12px;color:#9A8B6A;margin-bottom:1.5rem}
+.cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:2rem}
+.cpill{font-family:system-ui,sans-serif;font-size:11px;padding:4px 12px;border-radius:2px;border:0.5px solid #D6CDBF;color:#5C4E30;background:#FDF3DC}
+.cpill.good{border-color:#3A7A55;background:#EAF5EE;color:#1E5C38}
+.cpill.bad{border-color:#B04040;background:#FAEAEA;color:#7C1C1C}
+.brestart{padding:0.65rem 2rem;border:0.5px solid #C9A84C;background:transparent;color:#9A6F1A;font-family:system-ui,sans-serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:background 0.15s}
+.brestart:hover{background:#FDF3DC}
+</style>
+<div id="app"></div>
+<script>
+const Q=[
+  // ── PANDAS ──
+  {cat:"Pandas",type:"comprendre",text:"Que fait cette ligne ?",code:`df[df["reordered"] == 1]`,opts:[{t:"Crée une colonne reordered avec la valeur 1",c:false},{t:"Renvoie uniquement les lignes où reordered vaut 1",c:false},{t:"Supprime les lignes où reordered vaut 0",c:false},{t:"Compte le nombre de 1 dans reordered",c:false}],correct:1,expl:`<code>df[condition]</code> filtre le DataFrame : renvoie les lignes où la condition est True. Ici <code>df["reordered"] == 1</code> produit une série de True/False et <code>df[...]</code> garde uniquement les True.`},
+  {cat:"Pandas",type:"écrire",text:"Tu veux garder uniquement les lignes du département 'produce' ET qui sont des réachats.",scenario:"df contient les colonnes department et reordered (0 ou 1).",opts:[{t:`df[df["department"] == "produce" and df["reordered"] == 1]`,c:true},{t:`df[(df["department"] == "produce") & (df["reordered"] == 1)]`,c:true},{t:`df[df["department"] == "produce" | df["reordered"] == 1]`,c:true},{t:`df.filter(department="produce", reordered=1)`,c:true}],correct:1,expl:`En pandas le ET logique s'écrit <code>&</code> (pas <code>and</code>). Chaque condition doit être entre parenthèses. <code>|</code> serait le OU logique.`},
+  {cat:"Pandas",type:"comprendre",text:"Que fait .agg(['mean','count']) ?",code:`df.groupby("department")["reordered"].agg(["mean","count"])`,opts:[{t:"Renvoie une seule colonne : la moyenne de reordered",c:false},{t:"Renvoie deux colonnes (mean et count) — une par fonction",c:false},{t:"Renvoie trois colonnes (department, mean, count)",c:false},{t:"Lève une erreur car on ne peut passer qu'une fonction",c:false}],correct:1,expl:`<code>.agg(["mean","count"])</code> applique plusieurs fonctions en même temps et produit une colonne par fonction. <code>department</code> devient l'index — il redevient colonne après <code>.reset_index()</code>.`},
+  {cat:"Pandas",type:"écrire",text:"Tu veux les 3 meilleurs produits par rayon.",opts:[{t:`product_counts.groupby("aisle").head(3)`,c:true},{t:`product_counts.groupby("aisle").apply(lambda x: x.nlargest(3,"count")).reset_index(drop=True)`,c:true},{t:`product_counts.nlargest(3,"count").groupby("aisle")`,c:true},{t:`product_counts.groupby("aisle")["count"].nlargest(3)`,c:true}],correct:1,expl:`<code>groupby + apply + nlargest</code> : on regroupe par rayon et pour chaque groupe on prend les 3 lignes avec le plus grand <code>count</code>. C'est le pattern standard pour "top N par groupe".`},
+  {cat:"Pandas",type:"comprendre",text:"Pourquoi .reset_index() après groupby ?",code:`df.groupby("department")["reordered"].mean().reset_index()`,opts:[{t:"Pour supprimer les doublons",c:false},{t:"Pour trier alphabétiquement",c:false},{t:"Pour transformer l'index (department) en colonne normale",c:false},{t:"Pour réinitialiser les valeurs à 0",c:false}],correct:2,expl:`Après <code>groupby</code>, la colonne de regroupement devient l'<b>index</b>. <code>reset_index()</code> la remet en colonne normale avec un index numérique 0,1,2... Nécessaire pour les <code>.rename()</code> et <code>.sort_values()</code> qui suivent.`},
+
+  // ── SPARSE MATRIX ──
+  {cat:"Sparse / ALS",type:"comprendre",text:"Pourquoi utilise-t-on une matrice sparse pour ALS ?",scenario:"Notre matrice users × produits fait 206k × 50k = 10 milliards de cellules.",opts:[{t:"Les matrices sparse sont plus rapides à créer",c:false},{t:"La matrice est quasi-vide (99.87% de zéros) — sparse ne stocke que les valeurs non-nulles",c:false},{t:"ALS ne peut lire que des formats sparse",c:false},{t:"Pour éviter les valeurs manquantes dans pandas",c:false}],correct:1,expl:`10 milliards de cellules float32 ≈ 40 Go en dense. Mais un user achète ~150 produits sur 50k → 99.87% de zéros. <code>scipy.sparse.csr_matrix</code> ne stocke que les valeurs non-nulles → quelques centaines de Mo en pratique.`},
+  {cat:"Sparse / ALS",type:"comprendre",text:"Que représente la sparsité de 99.87% dans notre cas ?",opts:[{t:"99.87% des recommandations sont incorrectes",c:false},{t:"99.87% des cellules de la matrice users×produits valent 0",c:false},{t:"99.87% des utilisateurs n'ont passé qu'une seule commande",c:false},{t:"Le modèle a une précision de 0.13%",c:false}],correct:1,expl:`Sparsité = proportion de zéros dans la matrice. 99.87% signifie que sur 10 milliards de cases possibles, seulement 13 millions contiennent une vraie valeur d'achat. C'est pour ça que le format sparse est indispensable.`},
+  {cat:"Sparse / ALS",type:"comprendre",text:"Que signifient les factors=50 dans ALS ?",opts:[{t:"Le modèle fait 50 itérations d'entraînement",c:false},{t:"Chaque user et produit est représenté par un vecteur de 50 dimensions",c:false},{t:"On garde les 50 meilleurs produits par utilisateur",c:false},{t:"La régularisation est divisée par 50",c:false}],correct:1,expl:`<code>factors</code> = taille des embeddings. Chaque user et chaque produit est représenté par un vecteur de 50 nombres (caractéristiques cachées). Le score de recommandation = produit scalaire entre le vecteur user et le vecteur produit.`},
+  {cat:"Sparse / ALS",type:"comprendre",text:"Que fait filter_already_liked_items=True dans model.recommend() ?",opts:[{t:"Filtre les produits avec un score trop faible",c:false},{t:"Exclut des recommandations les produits que l'utilisateur a déjà achetés",c:false},{t:"Filtre les produits déjà recommandés à d'autres utilisateurs",c:false},{t:"Supprime les doublons dans les recommandations",c:false}],correct:1,expl:`Sans ce paramètre, ALS recommanderait souvent les produits déjà achetés (score élevé car déjà observés). Avec <code>filter_already_liked_items=True</code>, on force le modèle à recommander des produits <b>nouveaux</b> pour l'utilisateur.`},
+  {cat:"Sparse / ALS",type:"comprendre",text:"Pourquoi alpha=40 dans ALS ?",opts:[{t:"C'est le taux d'apprentissage du modèle",c:false},{t:"C'est un facteur de pondération qui amplifie la confiance dans les achats observés vs les 0",c:false},{t:"C'est le nombre de produits à recommander",c:false},{t:"C'est la proportion de données d'entraînement",c:false}],correct:1,expl:`En filtrage collaboratif implicite, les 0 ne veulent pas dire "n'aime pas" mais "n'a pas encore essayé". <code>alpha</code> pondère les interactions positives : une fréquence d'achat × 40 signale au modèle que c'est une vraie préférence, pas juste du bruit.`},
+
+  // ── MLflow ──
+  {cat:"MLflow",type:"comprendre",text:"À quoi sert mlflow.log_params() ?",code:`mlflow.log_params({"factors": 50, "iterations": 20})`,opts:[{t:"Enregistre les résultats du modèle",c:false},{t:"Enregistre les hyperparamètres du run pour pouvoir les retrouver et comparer",c:false},{t:"Charge les paramètres depuis un fichier de config",c:false},{t:"Affiche les paramètres dans le terminal",c:false}],correct:1,expl:`<code>mlflow.log_params()</code> sauvegarde les hyperparamètres dans le run MLflow. Quand tu entraînes 5 versions du modèle avec des valeurs différentes, tu peux comparer tous les runs côte à côte dans l'UI et voir lequel performe le mieux.`},
+  {cat:"MLflow",type:"comprendre",text:"Quelle est la différence entre log_params et log_metrics dans MLflow ?",opts:[{t:"Aucune — ce sont des synonymes",c:false},{t:"log_params = valeurs fixes d'entrée (hyperparamètres) ; log_metrics = mesures de performance calculées après entraînement",c:false},{t:"log_params s'affiche dans l'UI ; log_metrics est stocké uniquement en base",c:false},{t:"log_metrics accepte seulement des entiers ; log_params accepte tout",c:false}],correct:1,expl:`<code>log_params</code> : ce qu'on choisit <b>avant</b> d'entraîner (factors, iterations, alpha...). <code>log_metrics</code> : ce qu'on mesure <b>après</b> (Hit Rate, NDCG, sparsité...). Cette distinction permet de filtrer et comparer les runs par performance dans l'UI MLflow.`},
+  {cat:"MLflow",type:"comprendre",text:"Que fait mlflow.set_experiment('instacart-recsys') ?",opts:[{t:"Lance l'interface MLflow sur le port 5000",c:false},{t:"Crée ou sélectionne l'expérience dans laquelle les runs seront loggés",c:false},{t:"Charge le modèle nommé instacart-recsys",c:false},{t:"Exporte les résultats vers un fichier CSV",c:false}],correct:1,expl:`Une <b>expérience</b> MLflow est un groupe de runs liés au même projet. <code>set_experiment()</code> dit : "tous les prochains runs seront classés dans ce groupe". Si l'expérience n'existe pas, elle est créée automatiquement.`},
+  {cat:"MLflow",type:"écrire",text:"Comment lancer l'interface visuelle MLflow dans le terminal ?",opts:[{t:`python mlflow ui`,c:true},{t:`mlflow ui`,c:true},{t:`mlflow start --ui`,c:true},{t:`streamlit run mlflow`,c:true}],correct:1,expl:`<code>mlflow ui</code> lance un serveur local sur <code>http://127.0.0.1:5000</code>. Tu peux alors voir tous tes runs, comparer les métriques, et accéder aux artefacts sauvegardés.`},
+  {cat:"MLflow",type:"comprendre",text:"Dans notre run MLflow, que représente nnz=13307953 ?",opts:[{t:"Le nombre d'itérations qu'ALS a effectuées",c:false},{t:"Le nombre de valeurs non-nulles dans la matrice sparse",c:false},{t:"Le nombre de recommandations générées",c:false},{t:"Le nombre d'utilisateurs actifs",c:false}],correct:1,expl:`<code>nnz</code> = number of non-zeros. Sur 10 milliards de cases possibles, seulement 13.3 millions contiennent une vraie valeur d'achat. C'est cette valeur qu'on a loggée dans MLflow avec <code>mlflow.log_metric("nnz", matrix.nnz)</code>.`},
+
+  // ── FastAPI ──
+  {cat:"FastAPI",type:"comprendre",text:"À quoi sert le décorateur @app.get('/health') ?",code:`@app.get("/health")
+def health():
+    return {"status": "ok"}`,opts:[{t:"Définit une fonction Python classique nommée health",c:false},{t:"Enregistre la fonction comme handler HTTP GET sur la route /health",c:false},{t:"Vérifie automatiquement que l'API est en bonne santé",c:false},{t:"Importe le module health depuis FastAPI",c:false}],correct:1,expl:`Le décorateur <code>@app.get("/route")</code> lie une fonction Python à une route HTTP GET. Quand quelqu'un fait une requête GET sur <code>/health</code>, FastAPI appelle automatiquement la fonction <code>health()</code> et renvoie son résultat en JSON.`},
+  {cat:"FastAPI",type:"comprendre",text:"Pourquoi utilise-t-on Pydantic (BaseModel) dans FastAPI ?",code:`class RecommendedProduct(BaseModel):
+    product: str
+    score: float`,opts:[{t:"Pour se connecter à une base de données",c:false},{t:"Pour valider automatiquement les types des données entrantes et sortantes",c:false},{t:"Pour créer l'interface Swagger /docs",c:false},{t:"Pour gérer l'authentification des requêtes",c:false}],correct:1,expl:`Pydantic valide automatiquement les types. Si <code>score</code> doit être un float et que l'API reçoit une string, Pydantic lève une erreur claire. Ça évite les bugs silencieux. En bonus, FastAPI utilise ces modèles pour générer automatiquement la documentation Swagger (<code>/docs</code>).`},
+  {cat:"FastAPI",type:"comprendre",text:"Que fait raise HTTPException(status_code=404, detail='...') ?",opts:[{t:"Affiche un message d'erreur dans le terminal",c:false},{t:"Renvoie une réponse HTTP 404 avec un message d'erreur au client",c:false},{t:"Arrête le serveur FastAPI",c:false},{t:"Écrit l'erreur dans les logs MLflow",c:false}],correct:1,expl:`<code>HTTPException</code> interrompt l'exécution et renvoie une réponse HTTP avec le code d'erreur choisi. 404 = ressource introuvable. Le client (Swagger, Streamlit, ou tout autre consommateur) reçoit le message d'erreur en JSON au lieu d'un crash incompréhensible.`},
+  {cat:"FastAPI",type:"écrire",text:"Comment lancer le serveur FastAPI avec rechargement automatique ?",opts:[{t:`python src/api/main.py`,c:true},{t:`uvicorn src.api.main:app --reload`,c:true},{t:`fastapi run src/api/main.py`,c:true},{t:`flask run src/api/main.py`,c:true}],correct:1,expl:`<code>uvicorn</code> est le serveur ASGI qui fait tourner FastAPI. <code>src.api.main:app</code> = chemin du module + nom de l'objet FastAPI. <code>--reload</code> redémarre automatiquement le serveur à chaque modification du code (pratique en développement).`},
+  {cat:"FastAPI",type:"comprendre",text:"À quoi sert /docs sur http://127.0.0.1:8000/docs ?",opts:[{t:"C'est la documentation du code Python générée automatiquement",c:false},{t:"C'est Swagger UI — une interface pour tester les endpoints de l'API directement dans le navigateur",c:false},{t:"C'est l'interface Streamlit du projet",c:false},{t:"C'est le dashboard MLflow",c:false}],correct:1,expl:`FastAPI génère automatiquement une interface Swagger UI sur <code>/docs</code>. Elle liste tous les endpoints, leurs paramètres, et permet de les tester directement sans écrire de code. C'est pour les développeurs qui consomment l'API — différent de Streamlit qui est pour les utilisateurs finaux.`},
+
+  // ── Streamlit ──
+  {cat:"Streamlit",type:"comprendre",text:"Que fait @st.cache_data sur une fonction ?",code:`@st.cache_data
+def load_data():
+    df = pd.read_csv("data/processed/prior_merged.csv")
+    return df`,opts:[{t:"Sauvegarde les données sur disque",c:false},{t:"Met le résultat en cache — la fonction ne se réexécute pas si les inputs n'ont pas changé",c:false},{t:"Charge les données en arrière-plan sans bloquer l'UI",c:false},{t:"Compresse les données pour économiser la mémoire",c:false}],correct:1,expl:`Sans <code>@st.cache_data</code>, Streamlit réexécute tout le script à chaque interaction (changement de slider, saisie...). Avec le cache, <code>load_data()</code> ne tourne qu'une fois — les 32 millions de lignes sont chargées une seule fois puis mémorisées.`},
+  {cat:"Streamlit",type:"écrire",text:"Comment lancer l'application Streamlit ?",opts:[{t:`python src/ui/app.py`,c:true},{t:`streamlit run src/ui/app.py`,c:true},{t:`uvicorn src.ui.app:app`,c:true},{t:`flask run src/ui/app.py`,c:true}],correct:1,expl:`<code>streamlit run fichier.py</code> lance l'application sur <code>http://localhost:8501</code>. Streamlit surveille les modifications du fichier et recharge automatiquement l'interface. Il faut que l'API FastAPI tourne en parallèle dans un autre terminal.`},
+  {cat:"Streamlit",type:"comprendre",text:"Pourquoi faut-il deux terminaux : un pour uvicorn et un pour streamlit ?",opts:[{t:"Pour éviter les conflits de port",c:false},{t:"Ce sont deux processus indépendants — l'API sert les données, Streamlit consomme l'API via requests",c:false},{t:"Streamlit ne peut pas importer directement les fichiers Python du projet",c:false},{t:"MLflow a besoin du deuxième terminal",c:false}],correct:1,expl:`FastAPI (uvicorn port 8000) = le serveur qui charge le modèle et répond aux requêtes. Streamlit (port 8501) = l'interface qui interroge l'API via <code>requests.get("http://127.0.0.1:8000/recommend/1")</code>. Les deux sont des serveurs indépendants qui tournent en parallèle.`},
+  {cat:"Streamlit",type:"comprendre",text:"Que fait st.columns(2) ?",code:`col1, col2 = st.columns(2)
+with col1:
+    st.write("Gauche")`,opts:[{t:"Crée un tableau à 2 colonnes",c:false},{t:"Divise la page en 2 colonnes côte à côte — chaque with col remplit sa colonne",c:false},{t:"Crée 2 onglets navigables",c:false},{t:"Limite l'affichage à 2 éléments",c:false}],correct:1,expl:`<code>st.columns(n)</code> divise l'espace horizontal en n colonnes. <code>with col1:</code> place tous les éléments dans la colonne gauche. C'est le layout de base pour afficher l'historique d'achats à gauche et les recommandations à droite.`},
+
+  // ── Architecture MLOps ──
+  {cat:"Architecture",type:"comprendre",text:"Dans notre projet, quel composant fait quoi ?",opts:[{t:"Streamlit entraîne le modèle, FastAPI l'affiche, MLflow le stocke",c:false},{t:"MLflow trackait l'entraînement, FastAPI sert les prédictions, Streamlit visualise",c:false},{t:"FastAPI entraîne le modèle, MLflow l'affiche, Streamlit le déploie",c:false},{t:"Tous les trois font la même chose de façon redondante",c:false}],correct:1,expl:`Architecture en couches : <b>MLflow</b> = observabilité (enregistre les runs, hyperparamètres, métriques). <b>FastAPI</b> = serving (charge le modèle et répond aux requêtes de recommandation). <b>Streamlit</b> = interface (interroge l'API et affiche les résultats de façon lisible).`},
+  {cat:"Architecture",type:"comprendre",text:"Pourquoi sauvegarde-t-on le modèle en .pkl au lieu de le garder en mémoire ?",opts:[{t:"pickle est plus rapide que la mémoire RAM",c:false},{t:"Pour pouvoir charger le modèle entraîné sans réentraîner à chaque démarrage de l'API",c:false},{t:"FastAPI ne peut pas accéder à la mémoire Python directement",c:false},{t:"MLflow l'exige",c:false}],correct:1,expl:`Entraîner ALS prend 2-3 minutes. Si l'API rechargait le modèle depuis zéro à chaque démarrage, ce serait inutilisable. On sauvegarde le modèle entraîné une fois (<code>pickle.dump</code>) et on le recharge instantanément au démarrage (<code>pickle.load</code>).`},
+  {cat:"Architecture",type:"comprendre",text:"Pourquoi sys.path.append dans nos scripts ?",code:`sys.path.append(str(Path(__file__).resolve().parent.parent))`,opts:[{t:"Pour installer des librairies Python manquantes",c:false},{t:"Pour ajouter la racine du projet au chemin Python — sinon les imports src.* échouent",c:false},{t:"Pour que FastAPI trouve le fichier de config",c:false},{t:"C'est une syntaxe obligatoire en Python 3.11",c:false}],correct:1,expl:`Quand on lance <code>python scripts/train.py</code>, Python démarre depuis <code>scripts/</code> et ne connaît pas <code>src/</code>. <code>Path(__file__).parent.parent</code> remonte à la racine du projet et l'ajoute à <code>sys.path</code> — Python peut alors trouver <code>src.data.matrix_builder</code>.`},
+  {cat:"Architecture",type:"comprendre",text:"Pourquoi les fichiers __init__.py dans src/ ?",opts:[{t:"Pour initialiser des variables globales au démarrage",c:false},{t:"Pour indiquer à Python que le dossier est un package importable",c:false},{t:"Pour stocker la configuration du projet",c:false},{t:"FastAPI les requiert pour fonctionner",c:false}],correct:1,expl:`Sans <code>__init__.py</code>, Python ne reconnaît pas le dossier comme un module. Leur présence (même vide) dit à Python : "tu peux faire <code>from src.models.als_model import ALSRecommender</code>". C'est la base du système de modules Python.`},
+
+  // ── Commandes terminal ──
+  {cat:"Commandes",type:"écrire",text:"Comment activer le venv dans PowerShell ?",opts:[{t:`source instacart/bin/activate`,c:true},{t:`instacart\\Scripts\\activate`,c:true},{t:`activate instacart`,c:true},{t:`venv activate instacart`,c:true}],correct:1,expl:`Sur Windows PowerShell : <code>instacart\\Scripts\\activate</code>. Sur Linux/Mac : <code>source instacart/bin/activate</code>. À faire à chaque nouvelle session de terminal avant de lancer quoi que ce soit.`},
+  {cat:"Commandes",type:"écrire",text:"Comment installer une librairie en s'assurant qu'elle va dans le venv actif ?",opts:[{t:`install implicit`,c:true},{t:`pip install implicit`,c:true},{t:`conda install implicit`,c:true},{t:`python install implicit`,c:true}],correct:1,expl:`<code>pip install</code> avec le venv actif installe dans le venv, pas dans le Python système. Vérification : le nom du venv doit apparaître entre parenthèses dans le terminal <code>(instacart) PS C:\\...</code>.`},
+  {cat:"Commandes",type:"écrire",text:"Comment voir tous les runs MLflow dans le terminal sans ouvrir le navigateur ?",opts:[{t:`mlflow list`,c:true},{t:`mlflow runs list --experiment-name instacart-recsys`,c:true},{t:`mlflow show runs`,c:true},{t:`mlflow ui --no-browser`,c:true}],correct:1,expl:`<code>mlflow runs list --experiment-name nom</code> affiche la liste des runs dans le terminal. Mais en pratique on utilise plutôt <code>mlflow ui</code> + navigateur — l'interface visuelle est beaucoup plus lisible pour comparer les runs.`},
+];
+
+const CATS=["Tous",...new Set(Q.map(q=>q.cat))];
+let cat="Tous",pool=[],cur=0,score=0,ans=false,cscores={};
+
+function shuffle(a){return a.sort(()=>Math.random()-0.5)}
+
+function start(){
+  pool=shuffle(cat==="Tous"?[...Q]:Q.filter(q=>q.cat===cat));
+  cur=0;score=0;ans=false;cscores={};
+  Q.forEach(q=>{if(!cscores[q.cat])cscores[q.cat]={ok:0,tot:0}});
+  render();
+}
+
+function render(){
+  const app=document.getElementById("app");
+  if(cur>=pool.length){endRender(app);return;}
+  const q=pool[cur];
+  const pct=Math.round(cur/pool.length*100);
+  const tl=q.type==="écrire"?"✍ Quel code écrire ?":"🔍 Que fait ce code ?";
+  app.innerHTML=`
+    <div class="header">
+      <div class="eyebrow">Quiz Data Scientist</div>
+      <div class="htitle">Pandas · ALS · MLflow · FastAPI · Streamlit</div>
+      <div class="hsub">${Q.length} questions · Projet Instacart</div>
+    </div>
+    <div class="filters">${CATS.map(c=>`<button class="fbtn${c===cat?" active":""}" onclick="setcat('${c}')">${c}</button>`).join("")}</div>
+    <div class="progress-wrap">
+      <div class="pmeta"><span>Question ${cur+1} / ${pool.length}</span><span>Score : ${score} / ${cur}</span></div>
+      <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
+    </div>
+    <span class="qtag">${q.cat}</span><span class="qtype">${tl}</span>
+    <div class="qtext">${q.text}</div>
+    ${q.scenario?`<div class="scenario">📋 ${q.scenario}</div>`:""}
+    ${q.code?`<div class="qcode">${q.code}</div>`:""}
+    <div class="options" id="opts">${q.opts.map((o,i)=>`<button class="opt${o.c?"":" txt"}" onclick="answer(${i})">${o.t}</button>`).join("")}</div>
+    <div class="expl" id="expl">${q.expl}</div>
+    <div class="nav"><span class="nfb" id="fb"></span><button class="bnext" id="bn" onclick="next()">Suivant →</button></div>
+  `;
+  ans=false;
+}
+
+function answer(i){
+  if(ans)return;ans=true;
+  const q=pool[cur];
+  document.querySelectorAll(".opt").forEach((o,idx)=>{
+    o.disabled=true;
+    if(idx===q.correct)o.classList.add("reveal");
+    else if(idx===i&&i!==q.correct)o.classList.add("wrong");
+  });
+  const ok=i===q.correct;
+  if(ok)score++;
+  if(!cscores[q.cat])cscores[q.cat]={ok:0,tot:0};
+  cscores[q.cat].tot++;
+  if(ok)cscores[q.cat].ok++;
+  const fb=document.getElementById("fb");
+  fb.textContent=ok?"✓ Correct":"✗ Incorrect";
+  fb.style.color=ok?"#3A7A55":"#B04040";
+  document.getElementById("expl").style.display="block";
+  document.getElementById("bn").style.display="inline-block";
+}
+
+function next(){cur++;render();}
+function setcat(c){cat=c;start();}
+
+function endRender(app){
+  const pct=Math.round(score/pool.length*100);
+  const msg=pct>=80?"Maîtrise solide.":pct>=60?"Bonne base — relis les explications en rouge.":"Continue — relis le code et relance.";
+  const sub=pct>=80?"Tu peux coder sans assistance IA.":pct>=60?"Filtre les catégories faibles et réentraîne.":"Reviens après relecture du projet.";
+  const ch=Object.entries(cscores).map(([c,s])=>{
+    const p=s.tot>0?Math.round(s.ok/s.tot*100):0;
+    return `<span class="cpill ${p>=75?"good":p<50?"bad":""}">${c} ${s.ok}/${s.tot}</span>`;
+  }).join("");
+  app.innerHTML=`
+    <div class="header">
+      <div class="eyebrow">Quiz Data Scientist</div>
+      <div class="htitle">Pandas · ALS · MLflow · FastAPI · Streamlit</div>
+    </div>
+    <div class="score-card">
+      <div class="sring"><div class="sbig">${score}/${pool.length}</div><div class="sdenom">${pct}%</div></div>
+      <div class="smsg">${msg}</div>
+      <div class="ssub">${sub}</div>
+      <div class="sdet">Score par catégorie</div>
+      <div class="cats">${ch}</div>
+      <button class="brestart" onclick="start()">Recommencer</button>
+    </div>
+  `;
+}
+
+start();
+</script>
